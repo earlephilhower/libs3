@@ -175,10 +175,22 @@ $S3_COMMAND put $TEST_BUCKET/mpfile filename=mpfile
 echo "$S3_COMMAND get $TEST_BUCKET/mpfile filename=mpfile.get"
 $S3_COMMAND get $TEST_BUCKET/mpfile filename=mpfile.get
 diff mpfile mpfile.get
-rm -f mpfile mpfile.get
+
+# Check multipart copy
+echo "$S3_COMMAND copy $TEST_BUCKET/mpfile $TEST_BUCKET/mpcopy"
+$S3_COMMAND copy $TEST_BUCKET/mpfile $TEST_BUCKET/mpcopy
+echo "$S3_COMMAND get $TEST_BUCKET/mpcopy filename=mpcopy.get"
+$S3_COMMAND get $TEST_BUCKET/mpcopy filename=mpcopy.get
+diff mpfile mpcopy.get
+
+rm -f mpfile mpfile.get mpcopy.get
 
 # Remove the test file
 echo "$S3_COMMAND delete $TEST_BUCKET/aclkey"
 $S3_COMMAND delete $TEST_BUCKET/aclkey
+echo "$S3_COMMAND delete $TEST_BUCKET/mpfile"
+$S3_COMMAND delete $TEST_BUCKET/mpfile
+echo "$S3_COMMAND delete $TEST_BUCKET/mpcopy"
+$S3_COMMAND delete $TEST_BUCKET/mpcopy
 echo "$S3_COMMAND delete $TEST_BUCKET"
 $S3_COMMAND delete $TEST_BUCKET
